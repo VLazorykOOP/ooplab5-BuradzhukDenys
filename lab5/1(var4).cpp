@@ -2,85 +2,96 @@
 
 using namespace std;
 
-const double pi = 3.14;
+const double pi = 3.14; //число пі
 
-class Point
+class Point //Створюємо клас точки
 {
 protected:
-    double x;
-    double y;
+    double x, y; //Координати точки
 public:
-    Point() : x(0), y(0) {}
+    Point() : x(0), y(0) {} //Конструктор за замовчуванням
 
-    Point(double newX, double newY) : x(newX), y(newY) {}
+    Point(double newX, double newY) : x(newX), y(newY) {} //Конструктор, який приймає координати для точки
 
-    virtual ~Point() {}
+    virtual ~Point() {} //Деструктор
 
+    //Гетери
     double GetCoordinateX() const {return x;}
     double GetCoordinateY() const{return y;}
 
+    //Сетери
     void SetCoordinateX(double newX){this->x = newX;}
     void SetCoordinateY(double newY){this->y = newY;}
 
+    //Метод для виведення даних на екран
     virtual void print() const
     {
         cout << "Point(" << x << ", " << y << ")\n";
     }
 
+    //Метод для обчислення площі
     virtual double area() const
     {
         return 0.0;
     }
 };
 
-class Ellipse : public Point
+class Ellipse : public Point //Створюємо похідний клас еліпс, від точки
 {
 private:
-    double a, b;
+    double a, b; //Півосі еліпса
 public:
-    Ellipse() : Point(), a(0), b(0) {}
-    Ellipse(double newX, double newY, double newA, double newB) : Point(newX, newY), a(newA), b(newB) {}
+    Ellipse() : Point(), a(0), b(0) {} //Конструктор за замовчуванням
+    Ellipse(double newX, double newY, double newA, double newB) : Point(newX, newY), a(newA), b(newB) {} //Конструктор, який приймає координати для центру еліпса, та його піввісь
 
-    ~Ellipse() {}
+    ~Ellipse() {} //Деструктор
 
+    //Гетери
     double GetMajorAxis() const {return a;}
     double GetMinorAxis() const {return b;}
 
+    //Сетери
     void SetMajorAxis(double newA) {this->a = newA;}
     void SetMinorAxis(double newB) {this->b = newB;}
 
+    //Метод для виведення даних на екран
     void print() const override
     {
         cout << "Ellipse center: (" << x << ", " << y << "), axes: " << a << ", " << b << endl;
     }
 
+    //Метод для обчислення площі
     double area() const override
     {
         return pi * a * b;
     }
 };
 
-class Circle : public Ellipse
+class Circle : public Ellipse //Створюємо похідний клас коло, від еліпса
 {
 public:
-    Circle() : Ellipse() {}
-    Circle(double newX, double newY, double radius) : Ellipse(newX, newY, radius, radius) {}
+    Circle() : Ellipse() {} //Конструктор за замовчуванням
+    Circle(double newX, double newY, double radius) : Ellipse(newX, newY, radius, radius) {} //Конструктор, який приймає координати для центру кола, та його радіус
 
-    ~Circle() {}
+    ~Circle() {} //Деструктор
 
+    //Гетери
     double GetRadius() const {return GetMajorAxis();};
 
+    //Сетери
     void SetRadius(double radius)
     {
         SetMajorAxis(radius);
         SetMinorAxis(radius);
     }
 
+    //Метод для виведення даних на екран
     void print() const override
     {
         cout << "Circle center: (" << x << ", " << y << "), radius: " << GetMajorAxis() << endl;
     }
 
+    //Метод для обчислення площі
     double area() const override
     {
         return pi * (GetRadius() * GetRadius());
